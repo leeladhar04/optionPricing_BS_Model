@@ -1,6 +1,8 @@
 Option Pricing Visualization App
 This app uses the Black-Scholes model to visualize option prices and sensitivities (Greeks) through interactive heatmaps. It allows users to explore how call and put option prices change with varying spot prices and volatilities.
 
+Use the following link to access the app :- https://bsoptionpricing.streamlit.app/
+
 Features
 Call & Put Option Price Heatmaps: Visualizes how option prices change with respect to spot price and volatility.
 Greeks Visualization: Allows users to explore how Greeks (Delta, Gamma, Theta, Vega) vary with option parameters.
@@ -10,7 +12,7 @@ Clone the repository and install the required dependencies:
 
 bash
 Copy code
-git clone https://github.com/yourusername/optionPricing_BS_Model.git
+git clone https://github.com/leeladhar04/optionPricing_BS_Model.git
 cd optionPricing_BS_Model
 pip install -r requirements.txt
 Usage
