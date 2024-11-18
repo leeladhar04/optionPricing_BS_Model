@@ -53,21 +53,38 @@ ax.set_zlabel("Option Price")
 st.pyplot(fig)
 
 
-st.subheader("Heatmap: Option Price Sensitivity")
+st.subheader("Heatmaps: Call and Put Option Prices with Labels")
 
-S_range = np.linspace(50, 150, 50)
-sigma_range = np.linspace(0.1, 0.5, 50)
+# Generate data for heatmaps with fewer cells
+resolution = 10  # Fewer cells for clarity
+S_range = np.linspace(50, 150, resolution)
+sigma_range = np.linspace(0.1, 0.5, resolution)
 S_grid, sigma_grid = np.meshgrid(S_range, sigma_range)
-prices_grid = np.vectorize(black_scholes)(S_grid, K, T, r, sigma_grid, option_type)
 
+# Calculate prices for call and put options
+call_prices = np.vectorize(black_scholes)(S_grid, K, T, r, sigma_grid, option_type='call')
+put_prices = np.vectorize(black_scholes)(S_grid, K, T, r, sigma_grid, option_type='put')
 
-fig, ax = plt.subplots(figsize=(10, 6))
-sns.heatmap(prices_grid, ax=ax, cmap="coolwarm", cbar_kws={'label': 'Option Price'})
-ax.set_title(f"Option Price Heatmap ({option_type.capitalize()})")
+# Heatmap for Call Option Prices
+fig, ax = plt.subplots(figsize=(8, 6))
+sns.heatmap(call_prices, ax=ax, cmap="coolwarm", annot=True, fmt=".2f", cbar_kws={'label': 'Call Option Price'})
+ax.set_title("Call Option Price Heatmap")
 ax.set_xlabel("Spot Price (S)")
 ax.set_ylabel("Volatility (σ)")
-ax.set_xticks(np.linspace(0, len(S_range) - 1, 5))
-ax.set_xticklabels(np.linspace(S_range.min(), S_range.max(), 5).astype(int))
-ax.set_yticks(np.linspace(0, len(sigma_range) - 1, 5))
-ax.set_yticklabels(np.round(np.linspace(sigma_range.min(), sigma_range.max(), 5), 2))
+ax.set_xticks(np.arange(len(S_range)) + 0.5)
+ax.set_yticks(np.arange(len(sigma_range)) + 0.5)
+ax.set_xticklabels(np.round(S_range, 1))
+ax.set_yticklabels(np.round(sigma_range, 2))
+st.pyplot(fig)
+
+# Heatmap for Put Option Prices
+fig, ax = plt.subplots(figsize=(8, 6))
+sns.heatmap(put_prices, ax=ax, cmap="coolwarm", annot=True, fmt=".2f", cbar_kws={'label': 'Put Option Price'})
+ax.set_title("Put Option Price Heatmap")
+ax.set_xlabel("Spot Price (S)")
+ax.set_ylabel("Volatility (σ)")
+ax.set_xticks(np.arange(len(S_range)) + 0.5)
+ax.set_yticks(np.arange(len(sigma_range)) + 0.5)
+ax.set_xticklabels(np.round(S_range, 1))
+ax.set_yticklabels(np.round(sigma_range, 2))
 st.pyplot(fig)
